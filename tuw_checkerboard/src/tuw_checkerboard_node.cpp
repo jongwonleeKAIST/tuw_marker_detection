@@ -134,6 +134,12 @@ void CheckerboardNode::callbackCamera ( const sensor_msgs::ImageConstPtr& image_
         const double &cy = intrinsic_matrix_ ( 1, 2 );
         double f = ( fx+fy ) /2.;
 
+        /*
+        std::cout << "fx: "<< fx << std::endl;
+        std::cout << "fy: "<< fy << std::endl;
+        std::cout << "cx: "<< cx << std::endl;
+        std::cout << "cy: "<< cy << std::endl;
+        */
 
 
 
@@ -156,12 +162,33 @@ void CheckerboardNode::callbackCamera ( const sensor_msgs::ImageConstPtr& image_
                           extrinsic_matrix_( 1, 0 ), extrinsic_matrix_( 1, 1 ), extrinsic_matrix_( 1, 2 ),
                           extrinsic_matrix_( 2, 0 ), extrinsic_matrix_( 2, 1 ), extrinsic_matrix_( 2, 2 ) );
 
+        /*
+        for (int m=0; m<4; m++){
+            for (int n=0; n<4 ; n++){
+                std::cout << extrinsic_matrix_.at<double>(m,n) << " ";
+
+            }
+            std::cout << std::endl;
+        }
+        */
+
+
         tf::Vector3 t ( translation_vec ( 0 ), translation_vec ( 1 ), translation_vec ( 2 ) );
         transform_ =  tf::Transform ( R, t );
         tf::Quaternion q = transform_.getRotation();
 
+        /*** newly added part ***/
+
+        tf::Matrix3x3 R_boardtobase ( -1,  0, 0,
+                                       0, -1, 0,
+                                       0,  0, 1 );
+
+        tf::Vector3 t_boardtobase ( (float)config_.x_boardtobase/100, (float)config_.y_boardtobase/100, 0 );
+        transform_boardtobase =  tf::Transform ( R_boardtobase, t_boardtobase );
+
         if ( config_.plubish_tf ) {
             tf_broadcaster_->sendTransform ( tf::StampedTransform ( transform_, image_msg->header.stamp, image_msg->header.frame_id, checkerboard_frame_id_ ) );
+            tf_broadcaster_->sendTransform( tf::StampedTransform(transform_boardtobase, image_msg->header.stamp, checkerboard_frame_id_, "base") );
         }
         if ( config_.plubish_marker ) {
             marker_detection_.header = image_msg->header;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="image"                    default="/camera/image_raw"/>
+  <arg name="image"                    default="/camera/color/image_raw"/>
   <arg name="checkerboard_columns"     default="8"/>
   <arg name="checkerboard_rows"        default="6"/>
   <arg name="checkerboard_square_size" default="0.03"/>

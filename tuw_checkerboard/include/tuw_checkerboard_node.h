@@ -76,6 +76,7 @@ private:
   cv::Mat_<double> extrinsic_matrix_;
   cv::Mat_<double> projection_matrix_;
   tf::Transform transform_;
+  tf::Transform transform_boardtobase;
   
   
   void callbackCamera(const sensor_msgs::ImageConstPtr& image_msg, const sensor_msgs::CameraInfoConstPtr& info_msg);

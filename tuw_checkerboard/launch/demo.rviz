@@ -69,7 +69,7 @@ Visualization Manager:
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /camera/image_raw
+      Image Topic: /camera/color/image_raw
       Name: Camera
       Overlay Alpha: 0.5
       Queue Size: 2
@@ -100,7 +100,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: camera
+    Fixed Frame: base
     Frame Rate: 30
   Name: root
   Tools:
